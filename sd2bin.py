@@ -1,6 +1,13 @@
-# Using the NPL 2024a kernel
+# Description: 
+# This script loads superdroplet data from a directory of ascii files,
+# finds superdroplets within a certain radius of a given point, and
+# bins the superdroplets by a given key (e.g. radius, density).
+# The binned data is then plotted as a histogram.
+# The class Bin_Superdroplets is used to store the data 
+# perform the binning, and visualize the distributions.
+
 import numpy as np
-import xarray as xr
+# import xarray as xr
 import os.path
 import os
 import pandas as pd
@@ -63,6 +70,9 @@ neighbors = find_neighbs(trajs, [0,0,0], 2e5)
 
 
 class Bin_Superdroplets:
+    # This class is used to store superdroplet data
+    # and perform binning on the data
+    # The binned data can then be visualized as a histogram
     def __init__(self, data, bins=100):
         self.data = data
         self.bins = bins
