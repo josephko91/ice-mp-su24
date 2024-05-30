@@ -40,13 +40,17 @@ def load_trajectories(dirpath, num_timesteps=1):
     times = np.unique(timestamps)
     trajs_list = []
     for t in range(num_timesteps):
+        print(f'Loading trajectories for time {times[t]} ')
         idx0 = np.where(timestamps==times[t])
         fn0 = [filenames[idx0[0][i]] for i in range(0,len(idx0[0]))]
         # this goes through all the files at the first time step
         # load the trajectory data 
         for fn in fn0: 
             filepath = os.path.join(dirpath,fn)
-            traj=pd.read_csv(filepath,sep = '\s+',skiprows=1,header=None,delim_whitespace=False,names=colnames,index_col='rk_deact')
+            traj=pd.read_csv(filepath,sep = '\s+',skiprows=1,header=None,
+                             delim_whitespace=False,names=colnames,index_col='rk_deact')
+            # add the time step to the dataframe
+            traj['time'] = times[t]
             trajs_list.append(traj)
     # concatenate it to the pandas dataframe
     # outside the for loop to be more efficient
