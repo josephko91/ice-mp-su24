@@ -54,12 +54,12 @@ def load_trajectories(dirpath, num_timesteps=1):
     trajs = pd.concat(trajs_list)
     return trajs
 
-# example usage of how to load the trajectories
-dirpath = '/glade/derecho/scratch/klamb/superdroplets/outsdm_iceball_nowind_rhod_dist_min200_time_var_sgs_1024_poly_trj/SDM_trajs/'
-trajs = load_trajectories(dirpath,num_timesteps=5)
+# # # example usage of how to load the trajectories
+# dirpath = '/glade/derecho/scratch/klamb/superdroplets/outsdm_iceball_nowind_rhod_dist_min200_time_var_sgs_1024_poly_trj/SDM_trajs/'
+# trajs = load_trajectories(dirpath,num_timesteps=5)
 
-# filter the trajectories to only include droplet index 304
-# organized by timestep
-traj304 = trajs[trajs['index']==304]
+# # # filter the trajectories to only include droplet index 304
+# # # organized by timestep
+# traj304 = trajs[trajs['index']==304]
 
 
