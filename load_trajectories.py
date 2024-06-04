@@ -7,16 +7,23 @@
 # perform the binning, and visualize the distributions.
 
 import numpy as np
-# import xarray as xr
 import os.path
 import os
 import pandas as pd
 
-# filepaths for trajectories
 
+def get_timestamps(dirpath):
+    timestamps = []
 
+    # filter trajfiles to only include "SD_output_ASCII"
+    trajfiles = [file for file in os.listdir(dirpath) if 'SD_output_ASCII' in file]
+    for file in trajfiles:
+        timestamps.append(int(file[16:21]))
 
-def load_trajectories(dirpath, num_timesteps=1):
+    return np.unique(timestamps)
+
+def load_trajectories(dirpath, num_timesteps=1,times=None):
+
     timestamps = []
     processors = []
     filelen = []
@@ -34,7 +41,13 @@ def load_trajectories(dirpath, num_timesteps=1):
     colnames =['x[m]','y[m]','z[m]','vz[m]','radius(droplet)[m]','mass_of_aerosol_in_droplet/ice(1:01)[g]','radius_eq(ice)[m]','radius_pol(ice)[m]',
                'density(droplet/ice)[kg/m3]','rhod [kg/m3]','multiplicity[-]','status[-]','index','rime_mass[kg]','num_of_monomers[-]','rk_deact']
 
-    times = np.unique(timestamps)
+    times = np.unique(timestamps) if times is None else times
+
+    # add check to make sure the number of timesteps is less than the number of timestamps
+    if num_timesteps > len(times):
+        print(f'Error: num_timesteps {num_timesteps} is greater than the number of timestamps {len(times)}')
+        return None
+
     trajs_list = []
     for t in range(num_timesteps):
         print(f'Loading trajectories for time {times[t]} ')
@@ -56,10 +69,16 @@ def load_trajectories(dirpath, num_timesteps=1):
 
 # # # example usage of how to load the trajectories
 # dirpath = '/glade/derecho/scratch/klamb/superdroplets/outsdm_iceball_nowind_rhod_dist_min200_time_var_sgs_1024_poly_trj/SDM_trajs/'
-# trajs = load_trajectories(dirpath,num_timesteps=5)
+# trajs = load_trajectories(dirpath,num_timesteps=2)
 
 # # # filter the trajectories to only include droplet index 304
 # # # organized by timestep
 # traj304 = trajs[trajs['index']==304]
 
+# # # example of loading coarsened timestamps
+# timestamps = get_timestamps(dirpath)
+# # # # load every 4 timestamps (every two minutes)
+# coarse_timestamps = timestamps[0::4]
+# print(coarse_timestamps)
+# trajs = load_trajectories(dirpath,num_timesteps=5,times=coarse_timestamps)
 
