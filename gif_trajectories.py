@@ -14,11 +14,11 @@ os.chdir(workpath)
 import load_trajectories as lt
 
 # Get the timestamps
-dirpath = '/glade/derecho/scratch/klamb/superdroplets/outsdm_iceball_nowind_rhod_dist_min200_time_var_sgs_1024_poly_trj/SDM_trajs/'
+# dirpath = '/glade/derecho/scratch/klamb/superdroplets/outsdm_iceball_nowind_rhod_dist_min200_time_var_sgs_1024_poly_trj/SDM_trajs/'
+dirpath = '/glade/derecho/scratch/klamb/superdroplets/outsdm_iceball_nowind_rhod_dist_min200_sgs_1024_poly_trj_5400_7200/'
 timestamps = lt.get_timestamps(dirpath)
-# coarse timestamps should be every 5 minutes (every 10 timestamps) until the end
-coarse_timestamps = timestamps[::2]
-# just take the first 10 minutes
+# coarse timestamps should be every minutes (every 2 timestamps) until the end
+coarse_timestamps = timestamps[::4]
 # coarse_timestamps = coarse_timestamps[:2]
 
 class Bin_Superdroplets:
@@ -97,7 +97,8 @@ for timestamp in coarse_timestamps:
 images = []
 for timestamp in coarse_timestamps:
     images.append(imageio.imread(f'traj_png/traj_{timestamp}.png'))
-imageio.mimsave('traj_png/trajectories.gif', images, fps=1)
+imageio.mimsave('traj_png/trajectories_poly_trj_5400_7200.gif', images, fps=1)
 
 # find the min rhod in traj
 traj["rhod [kg/m3]"].min()
+
