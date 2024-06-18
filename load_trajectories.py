@@ -64,10 +64,15 @@ def load_trajectories(dirpath,
                              delim_whitespace=False,names=colnames,index_col='rk_deact')
             # add the time step to the dataframe
             traj['time'] = times[t]
+
             # only take the first Ns unique superdroplets
             if Ns is not None:
-                # traj = traj[traj['index']<Ns]
-                pass # all nice things to come
+                # find unique superdroplets
+                unique_superdroplets = np.unique(traj['rk_deact'])
+                # take the first Ns unique superdroplets
+                unique_superdroplets = unique_superdroplets[0:Ns]
+                # filter the dataframe to only include the first Ns unique superdroplets
+                traj = traj[traj['rk_deact'].isin(unique_superdroplets)]
             trajs_list.append(traj)
     # concatenate it to the pandas dataframe
     # outside the for loop to be more efficient
@@ -75,8 +80,8 @@ def load_trajectories(dirpath,
     return trajs
 
 # # # example usage of how to load the trajectories
-# dirpath = '/glade/derecho/scratch/klamb/superdroplets/outsdm_iceball_nowind_rhod_dist_min200_sgs_1024_poly_trj_5400_7200'
-# trajs = load_trajectories(dirpath,num_timesteps=2)
+dirpath = '/glade/derecho/scratch/klamb/superdroplets/outsdm_iceball_nowind_rhod_dist_min200_sgs_1024_poly_trj_5400_7200'
+trajs = load_trajectories(dirpath,num_timesteps=2)
 
 # # # filter the trajectories to only include droplet index 304
 # # # organized by timestep
