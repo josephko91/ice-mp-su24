@@ -69,4 +69,4 @@ selected_vars = ['rh', 'th', 'prs', 'uinterp', 'vinterp', 'winterp', 'out8', 'ou
 
 
 
-trajs = add_env_vars_to_traj(nc, trajs, selected_vars)
+trajs = get_environmental_vars(nc, trajs, selected_vars)
