@@ -110,6 +110,12 @@ def load_trajectories(dirpath,
     # concatenate it to the pandas dataframe
     # outside the for loop to be more efficient
     trajs = pd.concat(trajs_list)
+
+    # reset the index 
+    trajs = trajs.reset_index()
+
+    # remove all z[m] < 0
+    trajs = trajs[trajs['z[m]'] > 0]
     return trajs
 
 # # # example usage of how to load the trajectories
@@ -132,7 +138,7 @@ dirpath = '/glade/derecho/scratch/klamb/superdroplets/outsdm_iceball_nowind_rhod
 # # # load the unique superdroplets at a given time step
 # # # now of course, you could also filter unique superdroplets 
 # # # by a certain radius or density or whatever you want
-unique_superdroplets = get_unique_SDs(dirpath,6165)
-Ns = 2^4
-first_Ns = unique_superdroplets[0:Ns]
-trajs = load_trajectories(dirpath,num_timesteps=4,Ns_array=first_Ns)
+# unique_superdroplets = get_unique_SDs(dirpath,6165)
+# Ns = 2^4
+# first_Ns = unique_superdroplets[0:Ns]
+# trajs = load_trajectories(dirpath,num_timesteps=4,Ns_array=first_Ns)
