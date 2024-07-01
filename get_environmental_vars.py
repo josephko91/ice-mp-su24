@@ -8,10 +8,6 @@ import pandas as pd
 import xarray as xr
 
 
-#for calculating the air temperature
-from metpy.units import units
-from metpy.calc import temperature_from_potential_temperature
-
 #time
 from datetime import timedelta
 
@@ -19,6 +15,41 @@ from datetime import timedelta
 workpath = '/glade/work/psturm/ice-mp-su24/'
 os.chdir(workpath)
 import load_trajectories as lt
+
+def calculate_rh(T, P, qv, TYPE):
+    # Constants for ice
+    a0i = 6.11147274
+    a1i = 0.503160820
+    a2i = 0.188439774e-1
+    a3i = 0.420895665e-3
+    a4i = 0.615021634e-5
+    a5i = 0.602588177e-7
+    a6i = 0.385852041e-9
+    a7i = 0.146898966e-11
+    a8i = 0.252751365e-14
+
+    # Constants for liquid
+    a0 = 6.11239921
+    a1 = 0.443987641
+    a2 = 0.142986287e-1
+    a3 = 0.264847430e-3
+    a4 = 0.302950461e-5
+    a5 = 0.206739458e-7
+    a6 = 0.640689451e-10
+    a7 = -0.952447341e-13
+    a8 = -0.976195544e-15
+
+    dt = np.maximum(-80., T - 273.16)
+    rd = 287.04
+    rv = 461.5
+    eps = rd/rv
+    if TYPE == 1:  # Ice
+        polysvp = a0i + dt*(a1i+dt*(a2i+dt*(a3i+dt*(a4i+dt*(a5i+dt*(a6i+dt*(a7i+a8i*dt)))))))
+    elif TYPE == 0:  # Liquid
+        polysvp = a0 + dt*(a1+dt*(a2+dt*(a3+dt*(a4+dt*(a5+dt*(a6+dt*(a7+a8*dt)))))))
+    polysvp = polysvp * 100.
+    rh_out = qv / (eps * polysvp /(P-polysvp))
+    return rh_out
 
 def get_environmental_vars(nc, trajs, selected_vars):
     x_index_array = np.zeros(len(trajs), dtype=int)
@@ -40,6 +71,28 @@ def get_environmental_vars(nc, trajs, selected_vars):
             value = nc[var][0, zk, yj, xi].values * 1
             values.append(value)
         trajs[var] = values
+
+    # calculate the air temperature
+    rd = 287.0
+    cp = 1004.0
+    p00 = 100000.0
+    rovcp  = rd/cp
+    trajs['T [K]'] = trajs['th'].values * (trajs['prs'].values / p00 ) ** (rovcp)
+
+    # calculate the relative humidity w.r.t ice
+    # Apply the function to the dataframe
+    trajs['RH_ice'] = calculate_rh(trajs['T [K]'], trajs['prs'], trajs['qv'], 1)
+    trajs['RH_liquid'] = calculate_rh(trajs['T [K]'], trajs['prs'], trajs['qv'], 0)
+
+    # make a new column that is the difference between RH_liquid and rh
+    trajs['RH_diff'] = trajs['RH_liquid'] - trajs['rh']
+    # note from Obin: if RH_diff is not zero, this might be because of how
+    # the absolute temperature is given to the Fortran RH-calculating subroutine SAT_ICE3D_OUT
+    # dum8(i,j,k)=(th0(i,j,k)+tha(i,j,k))*(pi0(i,j,k)+ppi(i,j,k))
+    # call SAT_ICE3D_OUT(dum8,prs,qa(:,:,:,nqv),dum1,0)
+    # where ppi is the perturbation nondimensional pressure ("Exner function")
+    # and th0 and pi0 are base-state potential temperature and Exner function
+
 
     return trajs
 
@@ -65,8 +118,15 @@ trajs = lt.load_trajectories(dirpath, times=coarse_timestamps,
 
 
 # define the variables we want to append
-selected_vars = ['rh', 'th', 'prs', 'uinterp', 'vinterp', 'winterp', 'out8', 'out9', 'out10', 'out11', 'out12', 'out13', 'out14', 'deactrat']
+selected_vars = ['rh', 'th', 'prs', 'qv', 'uinterp', 'vinterp', 'winterp', 'out8', 'out9', 'out10', 'out11', 'out12', 'out13', 'out14', 'deactrat']
 
 
 
 trajs = get_environmental_vars(nc, trajs, selected_vars)
+
+# find max absolute RH_diff in trajs
+# max_abs_RH_diff = np.max(np.abs(trajs['RH_diff']))
+
+
+
+
