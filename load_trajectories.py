@@ -111,11 +111,13 @@ def load_trajectories(dirpath,
     # outside the for loop to be more efficient
     trajs = pd.concat(trajs_list)
 
+    # remove all z[m] < 0
+    trajs = trajs[trajs['z[m]'] > 0]
+
     # reset the index 
     trajs = trajs.reset_index()
 
-    # remove all z[m] < 0
-    trajs = trajs[trajs['z[m]'] > 0]
+
     return trajs
 
 # # # example usage of how to load the trajectories
