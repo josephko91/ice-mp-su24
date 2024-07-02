@@ -108,13 +108,21 @@ timestamps = lt.get_timestamps(dirpath)
 # load every 4 timestamps (every 1 minute)
 coarse_timestamps = timestamps[0::4]
 
-# only look at 10 superdroplets 
-Ns = 10
+# only look at 1e3 superdroplets 
+Ns = 1000
 unique_superdroplets = lt.get_unique_SDs(dirpath, coarse_timestamps[0])
+
+# permute the superdroplets to get a random sample
+# no reassignment needed bc this is an in-place operation
+# seed this beforehand
+np.random.seed(42)
+np.random.shuffle(unique_superdroplets)
+
+
 first_Ns = unique_superdroplets[0:Ns]
 trajs = lt.load_trajectories(dirpath, times=coarse_timestamps,
-                         num_timesteps = 3, 
-                         Ns_array = first_Ns)
+                             num_timesteps=len(coarse_timestamps),
+                             Ns_array = first_Ns)
 
 
 # define the variables we want to append
@@ -123,6 +131,13 @@ selected_vars = ['rh', 'th', 'prs', 'qv', 'uinterp', 'vinterp', 'winterp', 'out8
 
 
 trajs = get_environmental_vars(nc, trajs, selected_vars)
+rh_trajectories = trajs.pivot(index='rk_deact', columns='time', values='RH_ice')
+
+# save the rh_trajectories to a csv
+rh_trajectories.to_csv('saved_trajectory_data/rh_trajectories.csv')
+
+# save the trajs to a csv named after the number of superdroplets Ns
+trajs.to_csv('saved_trajectory_data/trajs__5100_7200_Ns' + str(Ns) + '.csv')
 
 # find max absolute RH_diff in trajs
 # max_abs_RH_diff = np.max(np.abs(trajs['RH_diff']))
