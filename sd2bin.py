@@ -15,7 +15,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 # filepaths for trajectories
-dirpath = '/glade/derecho/scratch/klamb/superdroplets/outsdm_iceball_nowind_rhod_dist_min200_time_var_sgs_1024_poly_trj/SDM_trajs/'
+# dirpath = '/glade/derecho/scratch/klamb/superdroplets/outsdm_iceball_nowind_rhod_dist_min200_time_var_sgs_1024_poly_trj/SDM_trajs/'
 
 
 
@@ -58,7 +58,7 @@ def load_trajectories(dirpath, num_timesteps=1):
     return trajs
 
 # load the trajectories
-trajs = load_trajectories(dirpath)
+# trajs = load_trajectories(dirpath)
 
 def find_neighbs(trajs, midpoint, radius):
     # This function finds all superdroplets
@@ -70,7 +70,7 @@ def find_neighbs(trajs, midpoint, radius):
     return neighbors
 
 # Want the whole domain? Set a large radius
-neighbors = find_neighbs(trajs, [0,0,0], 2e5)
+# neighbors = find_neighbs(trajs, [0,0,0], 2e5)
 
 
 class Bin_Superdroplets:
@@ -90,6 +90,7 @@ class Bin_Superdroplets:
         """Calculate histogram for data associated with key."""
         weights = self.data['multiplicity[-]'] if 'multiplicity[-]' in self.data else None
         self.bin_counts[key], self.bin_edges[key] = np.histogram(self.data[key], bins=self.bins, weights=weights)
+        return self.bin_counts[key], self.bin_edges[key]
 
     def plot_histogram(self, key, ax, scale_factor=1, color=None, x_label=None):
         """
@@ -106,15 +107,15 @@ class Bin_Superdroplets:
 # neighbors.loc[neighbors['radius_eq(ice)[m]']>40/1e6, 'multiplicity[-]'] = -1e15
 # neighbors.loc[neighbors['rhod [kg/m3]']<400, 'multiplicity[-]'] = -1e15
 
-sd2bin = Bin_Superdroplets(neighbors)
-sd2bin.calculate_histogram('radius_eq(ice)[m]')
-sd2bin.calculate_histogram('rhod [kg/m3]')
+# sd2bin = Bin_Superdroplets(neighbors)
+# sd2bin.calculate_histogram('radius_eq(ice)[m]')
+# sd2bin.calculate_histogram('rhod [kg/m3]')
 
-fig, axs = plt.subplots(1, 2, figsize=(10,5), sharey=True)
-sd2bin.plot_histogram('radius_eq(ice)[m]', axs[0], scale_factor=1e6, x_label='Equivalent Radius [$\mu$m]')
-sd2bin.plot_histogram('rhod [kg/m3]', axs[1], color='lightblue', x_label='Deposition Density $\\rho_d$ [kg/m$^3$]')
-fig.text(0.04, 0.5, 'Ice particle number', va='center', rotation='vertical')
-plt.show()
+# fig, axs = plt.subplots(1, 2, figsize=(10,5), sharey=True)
+# sd2bin.plot_histogram('radius_eq(ice)[m]', axs[0], scale_factor=1e6, x_label='Equivalent Radius [$\mu$m]')
+# sd2bin.plot_histogram('rhod [kg/m3]', axs[1], color='lightblue', x_label='Deposition Density $\\rho_d$ [kg/m$^3$]')
+# fig.text(0.04, 0.5, 'Ice particle number', va='center', rotation='vertical')
+# plt.show()
 
 # Save the figure
 # fig.savefig('./figs/bins_entire_domain.png')

@@ -57,6 +57,7 @@ def get_environmental_vars(nc, trajs, selected_vars):
     z_index_array = np.zeros(len(trajs), dtype=int)
     
     for index, row in trajs.iterrows():
+        print("Getting grid cell indeces for row " + str(index) + " of " + str(len(trajs)))
         x_index_array[index] = (abs(row['x[m]']-nc['xh']* 1000).argmin())
         y_index_array[index] = (abs(row['y[m]']-nc['yh']* 1000).argmin())
         z_index_array[index] = (abs(row['z[m]']-nc['z']* 1000).argmin())
@@ -108,9 +109,8 @@ timestamps = lt.get_timestamps(dirpath)
 # load every 4 timestamps (every 1 minute)
 coarse_timestamps = timestamps[0::4]
 
-# only look at 1e3 superdroplets 
-Ns = 1000
 unique_superdroplets = lt.get_unique_SDs(dirpath, coarse_timestamps[0])
+Ns = 10000 # len(unique_superdroplets)
 
 # permute the superdroplets to get a random sample
 # no reassignment needed bc this is an in-place operation
@@ -134,7 +134,7 @@ trajs = get_environmental_vars(nc, trajs, selected_vars)
 rh_trajectories = trajs.pivot(index='rk_deact', columns='time', values='RH_ice')
 
 # save the rh_trajectories to a csv
-rh_trajectories.to_csv('saved_trajectory_data/rh_trajectories.csv')
+rh_trajectories.to_csv('saved_trajectory_data/rh_trajectories_Ns'+ str(Ns)+ '.csv')
 
 # save the trajs to a csv named after the number of superdroplets Ns
 trajs.to_csv('saved_trajectory_data/trajs__5100_7200_Ns' + str(Ns) + '.csv')
