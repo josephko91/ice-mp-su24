@@ -1,0 +1,20 @@
+2024-07-07 07:26:15,082 - distributed.nanny - INFO -         Start Nanny at: 'tcp://128.117.208.100:41209'
+2024-07-07 07:26:16,559 - distributed.worker - INFO -       Start worker at: tcp://128.117.208.100:42697
+2024-07-07 07:26:16,559 - distributed.worker - INFO -          Listening to: tcp://128.117.208.100:42697
+2024-07-07 07:26:16,559 - distributed.worker - INFO -           Worker name:               PBSCluster-7
+2024-07-07 07:26:16,559 - distributed.worker - INFO -          dashboard at:      128.117.208.100:46023
+2024-07-07 07:26:16,559 - distributed.worker - INFO - Waiting to connect to: tcp://128.117.208.112:44705
+2024-07-07 07:26:16,559 - distributed.worker - INFO - -------------------------------------------------
+2024-07-07 07:26:16,559 - distributed.worker - INFO -               Threads:                          1
+2024-07-07 07:26:16,559 - distributed.worker - INFO -                Memory:                  23.28 GiB
+2024-07-07 07:26:16,559 - distributed.worker - INFO -       Local Directory: /glade/derecho/scratch/ashleyn/tmp/dask-scratch-space/worker-v86n5zjg
+2024-07-07 07:26:16,559 - distributed.worker - INFO - -------------------------------------------------
+2024-07-07 07:26:17,253 - distributed.worker - INFO - Starting Worker plugin shuffle
+2024-07-07 07:26:17,253 - distributed.worker - INFO -         Registered to: tcp://128.117.208.112:44705
+2024-07-07 07:26:17,254 - distributed.worker - INFO - -------------------------------------------------
+2024-07-07 07:26:17,254 - distributed.core - INFO - Starting established connection to tcp://128.117.208.112:44705
+2024-07-07 10:27:34,068 - distributed._signals - INFO - Received signal SIGTERM (15)
+2024-07-07 10:27:34,072 - distributed.nanny - INFO - Closing Nanny at 'tcp://128.117.208.100:41209'. Reason: signal-15
+2024-07-07 10:27:34,072 - distributed.nanny - INFO - Nanny asking worker to close. Reason: signal-15
+2024-07-07 10:27:34,086 - distributed.nanny - INFO - Worker process 21710 was killed by signal 15
+2024-07-07 10:27:34,090 - distributed.dask_worker - INFO - End worker

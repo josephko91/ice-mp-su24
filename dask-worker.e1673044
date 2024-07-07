@@ -1,0 +1,20 @@
+2024-07-03 14:13:04,377 - distributed.nanny - INFO -         Start Nanny at: 'tcp://128.117.208.67:42777'
+2024-07-03 14:13:05,221 - distributed.worker - INFO -       Start worker at: tcp://128.117.208.67:34479
+2024-07-03 14:13:05,221 - distributed.worker - INFO -          Listening to: tcp://128.117.208.67:34479
+2024-07-03 14:13:05,222 - distributed.worker - INFO -           Worker name:               PBSCluster-6
+2024-07-03 14:13:05,222 - distributed.worker - INFO -          dashboard at:       128.117.208.67:45539
+2024-07-03 14:13:05,222 - distributed.worker - INFO - Waiting to connect to: tcp://128.117.208.55:45479
+2024-07-03 14:13:05,222 - distributed.worker - INFO - -------------------------------------------------
+2024-07-03 14:13:05,222 - distributed.worker - INFO -               Threads:                          1
+2024-07-03 14:13:05,222 - distributed.worker - INFO -                Memory:                  29.80 GiB
+2024-07-03 14:13:05,222 - distributed.worker - INFO -       Local Directory: /glade/derecho/scratch/ashleyn/tmp/dask-scratch-space/worker-hptftall
+2024-07-03 14:13:05,222 - distributed.worker - INFO - -------------------------------------------------
+2024-07-03 14:13:05,513 - distributed.worker - INFO - Starting Worker plugin shuffle
+2024-07-03 14:13:05,513 - distributed.worker - INFO -         Registered to: tcp://128.117.208.55:45479
+2024-07-03 14:13:05,513 - distributed.worker - INFO - -------------------------------------------------
+2024-07-03 14:13:05,514 - distributed.core - INFO - Starting established connection to tcp://128.117.208.55:45479
+2024-07-03 14:23:35,235 - distributed._signals - INFO - Received signal SIGTERM (15)
+2024-07-03 14:23:35,238 - distributed.nanny - INFO - Closing Nanny at 'tcp://128.117.208.67:42777'. Reason: signal-15
+2024-07-03 14:23:35,238 - distributed.nanny - INFO - Nanny asking worker to close. Reason: signal-15
+2024-07-03 14:23:35,248 - distributed.nanny - INFO - Worker process 59875 was killed by signal 15
+2024-07-03 14:23:35,251 - distributed.dask_worker - INFO - End worker

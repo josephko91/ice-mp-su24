@@ -1,0 +1,19 @@
+2024-07-07 07:26:15,081 - distributed.nanny - INFO -         Start Nanny at: 'tcp://128.117.208.100:35009'
+2024-07-07 07:26:16,559 - distributed.worker - INFO -       Start worker at: tcp://128.117.208.100:36655
+2024-07-07 07:26:16,559 - distributed.worker - INFO -          Listening to: tcp://128.117.208.100:36655
+2024-07-07 07:26:16,559 - distributed.worker - INFO -           Worker name:               PBSCluster-5
+2024-07-07 07:26:16,559 - distributed.worker - INFO -          dashboard at:      128.117.208.100:37243
+2024-07-07 07:26:16,559 - distributed.worker - INFO - Waiting to connect to: tcp://128.117.208.112:44705
+2024-07-07 07:26:16,559 - distributed.worker - INFO - -------------------------------------------------
+2024-07-07 07:26:16,559 - distributed.worker - INFO -               Threads:                          1
+2024-07-07 07:26:16,559 - distributed.worker - INFO -                Memory:                  23.28 GiB
+2024-07-07 07:26:16,559 - distributed.worker - INFO -       Local Directory: /glade/derecho/scratch/ashleyn/tmp/dask-scratch-space/worker-fg6hoq8b
+2024-07-07 07:26:16,559 - distributed.worker - INFO - -------------------------------------------------
+2024-07-07 07:26:17,254 - distributed.worker - INFO - Starting Worker plugin shuffle
+2024-07-07 07:26:17,255 - distributed.worker - INFO -         Registered to: tcp://128.117.208.112:44705
+2024-07-07 07:26:17,255 - distributed.worker - INFO - -------------------------------------------------
+2024-07-07 07:26:17,255 - distributed.core - INFO - Starting established connection to tcp://128.117.208.112:44705
+2024-07-07 10:27:33,853 - distributed._signals - INFO - Received signal SIGTERM (15)
+2024-07-07 10:27:33,911 - distributed.nanny - INFO - Worker process 21712 was killed by signal 15
+2024-07-07 10:27:33,915 - distributed.nanny - INFO - Closing Nanny at 'tcp://128.117.208.100:35009'. Reason: signal-15
+2024-07-07 10:27:33,916 - distributed.dask_worker - INFO - End worker
