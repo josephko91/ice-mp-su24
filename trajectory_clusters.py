@@ -19,7 +19,7 @@ np.random.seed(42)
 
 
 # load data
-rh_trajectories = pd.read_csv('saved_trajectory_data/rh_trajectories.csv')
+rh_trajectories = pd.read_csv('saved_trajectory_data/rh_trajectories_Ns10000.csv')
 rh_trajectories = rh_trajectories.dropna()
 
 # make the index rk_deact
@@ -29,7 +29,7 @@ rh_trajectories = rh_trajectories.set_index('rk_deact')
 supersaturation = (rh_trajectories.to_numpy()-1)
 
 # histogram of supersaturation
-plt.hist(supersaturation.flatten(), bins=100)
+plt.hist(supersaturation.flatten()*100, bins=100)
 # yaxis label is superdroplet count (not multiplicity weighted)
 plt.ylabel('superdroplet count (not $\\xi$ weighted)')
 plt.xlabel('supersaturation with respect to ice [%]')
@@ -136,7 +136,7 @@ plt.yticks(())
 plt.show()
 
 # load trajs and add the cluster labels to the dataframe
-trajs = pd.read_csv('saved_trajectory_data/trajs__5100_7200_Ns10000.csv')
+trajs = pd.read_csv('saved_trajectory_data/trajs_5100_7200_Ns10000.csv')
 # add the cluster labels to the dataframe
 rh_trajectories['cluster'] = kmeans.labels_+1
 
@@ -171,6 +171,7 @@ def plot_cluster_means_with_std_dev(trajs, column_name, scale_factor=1, ylabel=N
 
 plot_cluster_means_with_std_dev(trajs, 'radius_eq(ice)[m]', 1e6, 'Radius of ice particles [$\mu$m]')
 plot_cluster_means_with_std_dev(trajs, 'density(droplet/ice)[kg/m3]', ylabel='Droplet density s[kg/m3]')
+plot_cluster_means_with_std_dev(trajs, 'z[m]', ylabel='Altitude [m]')
 
 
 
@@ -234,7 +235,7 @@ plt.show()
 
 sns.set_theme(style="white", rc={"axes.facecolor": (0, 0, 0, 0)})
 # Filter for Cluster 3
-cluster_3_data = trajs[trajs['cluster'] == 3]
+cluster_3_data = trajs[trajs['cluster'] == 2]
 
 # Create a new column 'g' for FacetGrid, converting 'time' to a string for hue mapping
 cluster_3_data['g'] = cluster_3_data['time'].astype(str)
@@ -261,7 +262,7 @@ def label(x, color, label):
 g.map(label, "radius[microns]")
 
 # Set the subplots to overlap more by adjusting hspace
-g.figure.subplots_adjust(hspace=-.6)  # Increased overlap
+g.figure.subplots_adjust(hspace=-.8)  # Increased overlap
 
 # Remove axes details that don't play well with overlap
 g.set_titles("")

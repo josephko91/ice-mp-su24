@@ -58,11 +58,11 @@ def get_environmental_vars(nc, trajs, selected_vars):
     t_index_array = np.zeros(len(trajs), dtype=int)
     
     for index, row in trajs.iterrows():
-        print("Getting grid cell indeces for row " + str(index) + " of " + str(len(trajs)))
+        print("Getting grid cell indeces for row " + str(index+1) + " of " + str(len(trajs)))
         x_index_array[index] = (abs(row['x[m]']-nc['xh']* 1000).argmin())
         y_index_array[index] = (abs(row['y[m]']-nc['yh']* 1000).argmin())
         z_index_array[index] = (abs(row['z[m]']-nc['z']* 1000).argmin())
-        t_index_array[index] = np.where(nc["time"].values == np.timedelta64(row["time"], 's'))[0][-1] 
+        t_index_array[index] = np.where((nc["time"].values/1e9).astype(int) == row["time"])[0][-1] 
         # [0] to get the first element of the tuple, [-1] to get the last element of the array
 
     trajs['xi gridbox'] = x_index_array
@@ -114,7 +114,7 @@ timestamps = lt.get_timestamps(dirpath)
 coarse_timestamps = timestamps[0::4]
 
 unique_superdroplets = lt.get_unique_SDs(dirpath, coarse_timestamps[0])
-Ns = 10 # len(unique_superdroplets)
+Ns = 10000 # len(unique_superdroplets)
 
 # permute the superdroplets to get a random sample
 # no reassignment needed bc this is an in-place operation
@@ -125,8 +125,8 @@ np.random.shuffle(unique_superdroplets)
 
 first_Ns = unique_superdroplets[0:Ns]
 trajs = lt.load_trajectories(dirpath, times=coarse_timestamps,
-                            #  num_timesteps=len(coarse_timestamps),
-                            num_timesteps=2,
+                             num_timesteps=len(coarse_timestamps),
+                            # num_timesteps=2,
                              Ns_array = first_Ns)
 
 
@@ -139,10 +139,10 @@ trajs = get_environmental_vars(nc, trajs, selected_vars)
 rh_trajectories = trajs.pivot(index='rk_deact', columns='time', values='RH_ice')
 
 # save the rh_trajectories to a csv
-# rh_trajectories.to_csv('saved_trajectory_data/rh_trajectories_Ns'+ str(Ns)+ '.csv')
+rh_trajectories.to_csv('saved_trajectory_data/rh_trajectories_Ns'+ str(Ns)+ '.csv')
 
 # save the trajs to a csv named after the number of superdroplets Ns
-# trajs.to_csv('saved_trajectory_data/trajs__5100_7200_Ns' + str(Ns) + '.csv')
+trajs.to_csv('saved_trajectory_data/trajs_5100_7200_Ns' + str(Ns) + '.csv')
 
 # find max absolute RH_diff in trajs
 # max_abs_RH_diff = np.max(np.abs(trajs['RH_diff']))
