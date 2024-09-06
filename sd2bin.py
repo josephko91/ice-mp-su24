@@ -36,7 +36,6 @@ def load_trajectories(dirpath, num_timesteps=1):
     # these are the column names for the data in the ascii files
     colnames =['x[m]','y[m]','z[m]','vz[m]','radius(droplet)[m]','mass_of_aerosol_in_droplet/ice(1:01)[g]','radius_eq(ice)[m]','radius_pol(ice)[m]',
                'density(droplet/ice)[kg/m3]','rhod [kg/m3]','multiplicity[-]','status[-]','index','rime_mass[kg]','num_of_monomers[-]','rk_deact']
-
     times = np.unique(timestamps)
     trajs_list = []
     for t in range(num_timesteps):

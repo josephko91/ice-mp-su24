@@ -58,7 +58,7 @@ def get_environmental_vars(nc, trajs, selected_vars):
     t_index_array = np.zeros(len(trajs), dtype=int)
     
     for index, row in trajs.iterrows():
-        print("Getting grid cell indeces for row " + str(index+1) + " of " + str(len(trajs)))
+        print("Getting grid cell indices for row " + str(index+1) + " of " + str(len(trajs)))
         x_index_array[index] = (abs(row['x[m]']-nc['xh']* 1000).argmin())
         y_index_array[index] = (abs(row['y[m]']-nc['yh']* 1000).argmin())
         z_index_array[index] = (abs(row['z[m]']-nc['z']* 1000).argmin())
@@ -104,8 +104,8 @@ def get_environmental_vars(nc, trajs, selected_vars):
 # Example usage:
 
 # get environmental file
-dirpath = "/glade/derecho/scratch/klamb/superdroplets/outsdm_iceball_nowind_rhod_dist_min200_sgs_1024_poly_trj_5400_7200"
-envfile = os.path.join(dirpath, "cm1out_only_upto35.nc")
+dirpath = "/glade/derecho/scratch/klamb/superdroplets/outsdm_iceball_nowind_rhod_dist_min200_sgs_1024_poly_trj_5400_7200/"
+envfile = "/glade/derecho/scratch/joko/outsdm_iceball_nowind_rhod_dist_min200_sgs_1024_poly/cm1out.nc"
 nc = xr.open_dataset(envfile)
 
 # get trajectory dataframe
@@ -114,7 +114,7 @@ timestamps = lt.get_timestamps(dirpath)
 coarse_timestamps = timestamps[0::4]
 
 unique_superdroplets = lt.get_unique_SDs(dirpath, coarse_timestamps[0])
-Ns = 10000 # len(unique_superdroplets)
+Ns = 100000 # len(unique_superdroplets)
 
 # permute the superdroplets to get a random sample
 # no reassignment needed bc this is an in-place operation
@@ -148,5 +148,5 @@ trajs.to_csv('saved_trajectory_data/trajs_5100_7200_Ns' + str(Ns) + '.csv')
 # max_abs_RH_diff = np.max(np.abs(trajs['RH_diff']))
 
 
-
-
+# show trajs rk_deact 409
+# trajs_409 = trajs[trajs['rk_deact'] == 409]

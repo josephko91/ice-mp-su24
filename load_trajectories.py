@@ -47,8 +47,8 @@ def get_unique_SDs(dirpath,timestep):
     trajs_list = []
     for fn in fn0:
         filepath = os.path.join(dirpath,fn)
-        traj=pd.read_csv(filepath,sep = '\s+',skiprows=1,header=None,
-                         delim_whitespace=False,names=colnames,index_col='rk_deact')
+        traj=pd.read_csv(filepath,sep = '\s+', skiprows=1,header=None,
+                         names=colnames,index_col='rk_deact')
         trajs_list.append(traj)
     # concatenate it to the pandas dataframe
     # outside the for loop to be more efficient
@@ -98,7 +98,7 @@ def load_trajectories(dirpath,
         for fn in fn0: 
             filepath = os.path.join(dirpath,fn)
             traj=pd.read_csv(filepath,sep = '\s+',skiprows=1,header=None,
-                             delim_whitespace=False,names=colnames,index_col='rk_deact')
+                             names=colnames,index_col='rk_deact')
             # add the time step to the dataframe
             traj['time'] = times[t]
 
